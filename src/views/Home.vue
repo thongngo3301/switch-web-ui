@@ -43,6 +43,7 @@ import Layout from "@/components/Layout.vue";
 export default class Home extends Vue {
   state: unknown = null;
   stackState = {
+    name: "Home",
     stackSubs: [1],
     ssid: 1
   };

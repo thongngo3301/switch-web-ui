@@ -1,12 +1,11 @@
 <template>
   <gl-row>
     <gl-component
-      title="compA"
+      :title="state.name"
       class="test-component"
       width="30"
       :closable="false"
       :reorderEnabled="false"
-      :showPopoutIcon="false"
       :state.sync="mainState"
     >
       <input v-model="mainState.text" />
@@ -14,18 +13,19 @@
       <button @click="addStack">Add</button>
       <p><input v-model="testText" /></p>
     </gl-component>
-    <gl-dstack>
+    <gl-stack>
       <gl-component
         v-for="stackSub in state.stackSubs"
         :key="stackSub"
+        :closable="false"
+        :reorderEnabled="false"
         :title="'dynamic' + stackSub"
-        @destroy="remStack(stackSub)"
       >
         Dynamic item (id: {{ stackSub }})
         <button @click="remStack(stackSub)">Remove</button>
         <p><input v-model="testText" /></p>
       </gl-component>
-    </gl-dstack>
+    </gl-stack>
   </gl-row>
 </template>
 
@@ -42,6 +42,7 @@ import { glCustomContainer } from "vue-golden-layout";
 @Component
 export default class Layout extends glCustomContainer {
   @Prop() state!: {
+    name: string;
     stackSubs: number[];
     ssid: number;
   };
