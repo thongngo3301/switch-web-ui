@@ -6,12 +6,9 @@
       width="30"
       :closable="false"
       :reorderEnabled="false"
-      :state.sync="mainState"
+      :state.sync="state"
     >
-      <input v-model="mainState.text" />
       <h1>CompA</h1>
-      <button @click="addStack">Add</button>
-      <p><input v-model="testText" /></p>
     </gl-component>
     <gl-stack>
       <gl-component
@@ -22,8 +19,6 @@
         :title="'dynamic' + stackSub"
       >
         Dynamic item (id: {{ stackSub }})
-        <button @click="remStack(stackSub)">Remove</button>
-        <p><input v-model="testText" /></p>
       </gl-component>
     </gl-stack>
   </gl-row>
@@ -46,15 +41,5 @@ export default class Layout extends glCustomContainer {
     stackSubs: number[];
     ssid: number;
   };
-  mainState: unknown = { text: "Nothing new" };
-  testText = "testing text.";
-  addStack() {
-    this.state.stackSubs.push(++this.state.ssid);
-  }
-  remStack(id: number) {
-    const ndx = this.state.stackSubs.indexOf(id);
-    if (~ndx) this.state.stackSubs.splice(ndx, 1);
-    else console.assert(false, "Closed dynamic component is in the array");
-  }
 }
 </script>

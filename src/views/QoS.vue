@@ -1,8 +1,8 @@
 <template>
   <div>
-    <golden-layout class="hscreen">
+    <golden-layout class="hscreen" v-if="this.isReady">
       <gl-col>
-        <layout :state="qosState" />
+        <layout :state="this.qosState" />
       </gl-col>
     </golden-layout>
   </div>
@@ -19,36 +19,38 @@ body {
 </style>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import axios from "axios";
 
 import Layout from "@/components/Layout.vue";
 
 @Component({
   components: {
-    Layout,
-  },
+    Layout
+  }
 })
 export default class QoS extends Vue {
-  qosState = {
-    name: "QoS",
-    stackSubs: [3, 2, 1],
-    ssid: 1,
-  };
+  @Prop() qosState!: object;
+  @Prop({ default: "http://192.168.1.188:5000" }) readonly server_addr!: string;
+  @Prop({ default: "/qos" }) readonly path!: string;
+  @Prop() msg!: string;
+  @Prop({ default: false }) isReady!: boolean;
+
+  public getQos(): void {
+    axios.get(this.server_addr + this.path).then(res => {
+      this.msg = res.data;
+      console.log(res, this.msg);
+      this.qosState = {
+        name: "QoS",
+        stackSubs: [3, 2, 1],
+        ssid: 1
+      };
+      this.isReady = true;
+    });
+  }
+
   mounted() {
-    const req = {
-      title: "abc"
-    };
-    axios.post(`http://127.0.0.1:8888/qos`, req, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-type': 'application/json'
-      }
-    })
-      .then(res => {
-        // this.resp = res
-        console.log(res);
-      })
+    this.getQos();
   }
 }
 </script>

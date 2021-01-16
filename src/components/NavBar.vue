@@ -26,7 +26,12 @@
       <v-toolbar-title>{{ appTitle }}</v-toolbar-title>
       <v-spacer class="hidden-md-and-up"></v-spacer>
       <template v-for="(item, index) in items">
-        <v-btn :key="index" text class="hidden-sm-and-down" :to="`/${item.title}`">
+        <v-btn
+          :key="index"
+          text
+          class="hidden-sm-and-down"
+          :to="`/${item.title}`"
+        >
           {{ item.title }}
         </v-btn>
         <v-divider :key="`divider-${index}`"></v-divider>
@@ -42,12 +47,23 @@ export default {
     return {
       appTitle: "Test",
       drawer: false,
-      items: [{ title: "comm" }, { title: "ports" }, { title: "acl" },
-              { title: "qos" }, { title: "flows" }, { title: "stp" },
-              { title: "openflow" }, { title: "bridge" }, { title: "ssl" },
-              { title: "controller" }, { title: "manager" }, { title: "openvswitch" }, { title: "ip" }]
+      items: [
+        { title: "comm" },
+        { title: "ports" },
+        { title: "acl" },
+        { title: "qos" },
+        { title: "flows" },
+        { title: "stp" },
+        { title: "openflow" },
+        { title: "bridge" },
+        { title: "ssl" },
+        { title: "controller" },
+        { title: "manager" },
+        { title: "openvswitch" },
+        { title: "ip" },
+      ],
     };
-  }
+  },
 };
 </script>
 
